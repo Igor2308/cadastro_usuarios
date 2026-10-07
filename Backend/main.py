@@ -1,12 +1,11 @@
-from fastapi import FastAPI, Depends, Form, Request
+from fastapi import FastAPI, Depends, Form, Request, Header, HTTPException
 from fastapi.responses import RedirectResponse
-from starlette.middleware.sessions import SessionMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from sqlalchemy import Column, Integer, String, text
 from sqlalchemy.orm import Session
-
+import secrets
 from backend.database import Base, engine, get_db
 from backend.schemas import ClienteCreate, ClienteUpdate
 
@@ -19,10 +18,37 @@ app = FastAPI(
     title="Cadastro de Clientes"
 )
 
-app.add_middleware(
-    SessionMiddleware,
-    secret_key="chave-secreta-cadastro-clientes"
-)
+tokens_sessoes = set()
+
+# Verifica se o token existe e ainda é válido
+def validar_token(
+    authorization: str | None = Header(default=None)
+):
+    if authorization is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Sessão não informada."
+        )
+
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=401,
+            detail="Token inválido."
+        )
+
+    token = authorization.replace(
+        "Bearer ",
+        "",
+        1
+    )
+
+    if token not in tokens_sessoes:
+        raise HTTPException(
+            status_code=401,
+            detail="Sessão inválida ou expirada."
+        )
+
+    return token
 
 # ==========================================
 # ARQUIVOS DO FRONTEND
@@ -104,12 +130,10 @@ def pagina_login(request: Request):
 
 @app.post("/login")
 def fazer_login(
-    request: Request,
     email: str = Form(...),
     senha: str = Form(...),
     db: Session = Depends(get_db)
 ):
-
     usuario = db.execute(
         text(
             "SELECT * FROM usuarios "
@@ -122,35 +146,39 @@ def fazer_login(
     ).fetchone()
 
     if usuario is None:
+        return {
+            "sucesso": False,
+            "erro": "Credenciais inválidas."
+        }
 
-        return templates.TemplateResponse(
-            request=request,
-            name="index.html",
-            context={
-                "erro": "Credenciais inválidas."
-            }
-        )
+    # Gera um token exclusivo para esta sessão
+    token = secrets.token_urlsafe(32)
 
-    request.session["usuario_logado"] = True
+    # Guarda o token como sessão válida
+    tokens_sessoes.add(token)
 
-    return RedirectResponse(
-        url="/cadastro",
-        status_code=303
-    )
+    return {
+        "sucesso": True,
+        "token": token
+    }
+
+# ==========================================
+# VALIDAR SESSÃO
+# ==========================================
+
+@app.get("/validar-sessao")
+def validar_sessao(
+    token: str = Depends(validar_token)
+):
+    return {
+        "sucesso": True
+    }
 
 @app.get("/cadastro")
 def pagina_cadastro(
     request: Request,
     db: Session = Depends(get_db)
 ):
-
-    if not request.session.get("usuario_logado"):
-
-        return RedirectResponse(
-        url="/",
-        status_code=303
-    )
-
     clientes = db.query(Cliente).all()
 
     return templates.TemplateResponse(
@@ -176,7 +204,9 @@ def cadastrar_cliente(
 
     cidade: str = Form(...),
 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+
+    token: str = Depends(validar_token)
 
 ):
 
@@ -215,7 +245,8 @@ def cadastrar_cliente(
 
 @app.get("/clientes")
 def listar_clientes(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    token: str = Depends(validar_token)
 ):
 
     return db.query(
@@ -232,7 +263,9 @@ def buscar_cliente(
 
     cliente_id: int,
 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+
+    token: str = Depends(validar_token)
 
 ):
 
@@ -264,7 +297,9 @@ def atualizar_cliente(
 
     cliente_data: ClienteUpdate,
 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+
+    token: str = Depends(validar_token)
 
 ):
 
@@ -308,7 +343,9 @@ def excluir_cliente(
 
     cliente_id: int,
 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+
+    token: str = Depends(validar_token)
 
 ):
 

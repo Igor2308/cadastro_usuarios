@@ -167,22 +167,20 @@ body {
 /* Credenciais inválidas */
 
 .erro-credenciais {
+    display: none;
     margin-bottom: 18px;
-
     padding: 9px 12px;
-
     border: 1px solid #f5b7b1;
     border-radius: 6px;
-
     background-color: #fef2f2;
-
     color: #dc2626;
-
     font-size: 13px;
-
     text-align: center;
 }
 
+.erro-credenciais.mostrar {
+    display: block;
+}
 
 /* Botão Entrar */
 
