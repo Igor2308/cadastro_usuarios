@@ -1,4 +1,6 @@
-/* Configurações gerais */
+/* ==========================================
+   CONFIGURAÇÕES GERAIS
+   ========================================== */
 
 * {
     box-sizing: border-box;
@@ -6,38 +8,32 @@
     padding: 0;
 }
 
-
 body {
-
     min-height: 100vh;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
 
     padding: 30px;
 
     font-family: Arial, sans-serif;
 
-    /* Fundo laranja suave */
-
-    background: #fff4e8;
+    background-color: #fff4e8;
 
     color: #263746;
 }
 
 
-/* Janela principal */
+/* ==========================================
+   JANELA DO CADASTRO
+   ========================================== */
 
 .janela {
-
     width: 100%;
-
     max-width: 900px;
 
-    background: #ffffff;
+    background-color: #ffffff;
 
     border-radius: 12px;
 
@@ -48,86 +44,70 @@ body {
 }
 
 
-/* Barra superior */
+/* ==========================================
+   BARRA SUPERIOR
+   ========================================== */
 
 .barra-superior {
-
     height: 45px;
 
     display: flex;
-
     align-items: center;
 
     padding-left: 18px;
 
-    background: #f8f9fa;
+    background-color: #f8f9fa;
 
     border-bottom: 1px solid #e5e7eb;
 }
 
-
 .circulos {
-
     display: flex;
-
     gap: 8px;
 }
 
-
 .circulo {
-
     width: 12px;
-
     height: 12px;
 
     border-radius: 50%;
-
-    display: block;
 }
-
 
 .vermelho {
-
-    background: #ff5f57;
+    background-color: #ff5f57;
 }
-
 
 .amarelo {
-
-    background: #ffbd2e;
+    background-color: #ffbd2e;
 }
-
 
 .verde {
-
-    background: #28c840;
+    background-color: #28c840;
 }
 
 
-/* Conteúdo */
+/* ==========================================
+   CONTEÚDO
+   ========================================== */
 
 .conteudo {
-
     padding: 35px;
 }
 
-
-h1 {
-
+.conteudo h1 {
     margin-bottom: 30px;
 
-    font-size: 28px;
-
-    font-weight: 700;
-
     color: #263746;
+
+    font-size: 28px;
 }
 
 
-/* Formulário */
+/* ==========================================
+   FORMULÁRIO
+   ========================================== */
 
 .formulario {
-
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -135,9 +115,7 @@ h1 {
     gap: 22px 25px;
 }
 
-
 .campo {
-
     display: flex;
 
     flex-direction: column;
@@ -145,45 +123,32 @@ h1 {
     gap: 7px;
 }
 
-
 .campo label {
+    color: #64748b;
 
     font-size: 14px;
-
     font-weight: 600;
-
-    color: #64748b;
 }
 
-
 .campo input {
-
     width: 100%;
-
     height: 42px;
 
     padding: 0 13px;
 
     border: 1px solid #d5dce3;
-
     border-radius: 7px;
 
     outline: none;
 
-    background: #ffffff;
+    background-color: #ffffff;
 
     color: #263746;
 
     font-size: 14px;
-
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
 }
 
-
 .campo input:focus {
-
     border-color: #9aaabd;
 
     box-shadow:
@@ -191,10 +156,39 @@ h1 {
 }
 
 
-/* Botão */
+/* ==========================================
+   MENSAGENS DE ERRO
+   ========================================== */
+
+.mensagem-erro {
+    display: none;
+
+    width: 100%;
+
+    margin-top: 6px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #f0b36d;
+    border-radius: 6px;
+
+    background-color: #fff3e0;
+
+    color: #b45309;
+
+    font-size: 12px;
+}
+
+.mensagem-erro:not(:empty) {
+    display: block;
+}
+
+
+/* ==========================================
+   BOTÃO
+   ========================================== */
 
 .area-botao {
-
     display: flex;
 
     justify-content: flex-end;
@@ -202,57 +196,45 @@ h1 {
     margin-top: 25px;
 }
 
-
 .area-botao button {
-
     padding: 11px 25px;
 
     border: none;
-
     border-radius: 7px;
 
-    background: #2ecc71;
+    background-color: #2ecc71;
 
     color: #ffffff;
 
     font-size: 14px;
-
     font-weight: 600;
 
     cursor: pointer;
-
-    transition:
-        background 0.2s,
-        opacity 0.2s;
 }
-
 
 .area-botao button:hover {
-
-    background: #27ae60;
+    background-color: #27ae60;
 }
 
-
 .area-botao button:active {
-
     transform: translateY(1px);
 }
 
 
-.tabela-container {
+/* ==========================================
+   TABELA
+   ========================================== */
 
+.tabela-container {
     margin-top: 25px;
 
     border: 1px solid #dfe4e8;
-
     border-radius: 8px;
 
     overflow: hidden;
 }
 
-
 table {
-
     width: 100%;
 
     border-collapse: collapse;
@@ -260,15 +242,11 @@ table {
     table-layout: fixed;
 }
 
-
 thead {
-
-    background: #f8fafb;
+    background-color: #f8fafb;
 }
 
-
 th {
-
     padding: 14px 16px;
 
     text-align: left;
@@ -276,15 +254,12 @@ th {
     color: #526475;
 
     font-size: 13px;
-
     font-weight: 600;
 
     border-bottom: 1px solid #dfe4e8;
 }
 
-
 td {
-
     padding: 14px 16px;
 
     text-align: left;
@@ -294,114 +269,69 @@ td {
     font-size: 14px;
 
     border-bottom: 1px solid #edf0f2;
-
-    vertical-align: middle;
 }
 
-
 tbody tr:last-child td {
-
     border-bottom: none;
 }
 
-
 tbody tr:hover {
-
-    background: #fafcfd;
+    background-color: #fafcfd;
 }
 
 
-/* Mensagem */
-
-.mensagem {
-
-    min-height: 20px;
-
-    margin-top: 12px;
-
-    font-size: 14px;
-
-    font-weight: 600;
-}
-
-
-.mensagem.sucesso {
-
-    color: #219653;
-}
-
-
-.mensagem.erro {
-
-    color: #d64545;
-}
-
-
-/* Quando não houver clientes */
+/* ==========================================
+   QUANDO NÃO HOUVER CLIENTES
+   ========================================== */
 
 .sem-clientes {
+    padding: 25px;
 
     text-align: center;
 
     color: #94a3b8;
-
-    padding: 25px;
 }
 
 
-/* Responsividade */
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
 
 @media (max-width: 650px) {
 
     body {
-
         padding: 15px;
 
         align-items: flex-start;
     }
 
-
     .conteudo {
-
         padding: 25px 20px;
     }
 
-
-    h1 {
-
+    .conteudo h1 {
         font-size: 24px;
     }
 
-
     .formulario {
-
         grid-template-columns: 1fr;
 
         gap: 18px;
     }
 
-
-    .area-botao button {
-
-        width: 100%;
-    }
-
-
     .area-botao {
-
         margin-top: 22px;
     }
 
+    .area-botao button {
+        width: 100%;
+    }
 
     .tabela-container {
-
         overflow-x: auto;
     }
 
-
     table {
-
         min-width: 650px;
     }
-
 }

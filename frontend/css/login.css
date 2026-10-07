@@ -1,0 +1,220 @@
+/* ==========================================
+   LOGIN
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #fff4e8;
+}
+
+
+/* Área principal do login */
+
+.login-container {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background-color: #fff4e8;
+}
+
+
+/* Card do login */
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+
+    padding: 35px;
+
+    background-color: #ffffff;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Cabeçalho */
+
+.login-cabecalho {
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+.login-cabecalho h1 {
+    margin-bottom: 8px;
+
+    color: #1f2937;
+
+    font-size: 28px;
+}
+
+.login-cabecalho p {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* Campos */
+
+.campo-login {
+    margin-bottom: 20px;
+}
+
+.campo-login label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #475569;
+
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.campo-login input {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    background-color: #ffffff;
+
+    color: #263746;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+.campo-login input:focus {
+    border-color: #f59e0b;
+
+    box-shadow:
+        0 0 0 2px rgba(245, 158, 11, 0.15);
+}
+
+.campo-login input::placeholder {
+    color: #b8bec7;
+}
+
+
+/* Campo da senha */
+
+.campo-senha {
+    position: relative;
+}
+
+.campo-senha input {
+    padding-right: 45px;
+}
+
+
+/* Botão do olho */
+
+.botao-olho {
+    position: absolute;
+
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    padding: 4px;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+
+/* Mensagens de erro dos campos */
+
+.mensagem-login {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #dc2626;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+
+/* Credenciais inválidas */
+
+.erro-credenciais {
+    margin-bottom: 18px;
+
+    padding: 9px 12px;
+
+    border: 1px solid #f5b7b1;
+    border-radius: 6px;
+
+    background-color: #fef2f2;
+
+    color: #dc2626;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* Botão Entrar */
+
+.botao-login {
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+    border-radius: 7px;
+
+    background-color: #f59e0b;
+
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.botao-login:hover {
+    background-color: #d97706;
+}
+
+
+/* Responsividade */
+
+@media (max-width: 500px) {
+
+    .login-card {
+        padding: 25px;
+    }
+
+}

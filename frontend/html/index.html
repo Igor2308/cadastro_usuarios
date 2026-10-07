@@ -11,223 +11,129 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Cadastro de Clientes</title>
+    <title>Login - Cadastro de Clientes</title>
 
     <link
         rel="stylesheet"
-        href="/frontend/css/style.css"
+        href="/frontend/css/login.css"
     >
 
 </head>
 
-
 <body>
 
-    <main class="janela">
+    <main class="login-container">
 
+        <div class="login-card">
 
-        <!-- Barra superior -->
+            <div class="login-cabecalho">
 
-        <div class="barra-superior">
+                <h1>
+                    Login
+                </h1>
 
-            <div class="circulos">
-
-                <span class="circulo vermelho"></span>
-
-                <span class="circulo amarelo"></span>
-
-                <span class="circulo verde"></span>
+                <p>
+                    Entre para acessar o sistema
+                </p>
 
             </div>
 
-        </div>
-
-
-        <!-- Conteúdo -->
-
-        <div class="conteudo">
-
-            <h1>
-                Cadastro de Clientes
-            </h1>
-
-
-            <!-- Formulário -->
-
             <form
                 method="post"
-                action="/clientes"
+                action="/login"
+                id="loginForm"
             >
 
-                <div class="formulario">
+                <!-- E-mail -->
 
+                <div class="campo-login">
 
-                    <!-- Nome -->
+                    <label for="email">
+                        E-mail
+                    </label>
 
-                    <div class="campo">
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="exemplo@gmail.com"
+                        pattern="^[^@\s]+@[^@\s]+\.com$"
+                        required
+                    >
 
-                        <label for="nome">
-                            Nome
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nome"
-                            name="nome"
-                            maxlength="100"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- E-mail -->
-
-                    <div class="campo">
-
-                        <label for="email">
-                            E-mail
-                        </label>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            maxlength="100"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- Telefone -->
-
-                    <div class="campo">
-
-                        <label for="telefone">
-                            Telefone
-                        </label>
-
-                        <input
-                            type="text"
-                            id="telefone"
-                            name="telefone"
-                            maxlength="20"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- Cidade -->
-
-                    <div class="campo">
-
-                        <label for="cidade">
-                            Cidade
-                        </label>
-
-                        <input
-                            type="text"
-                            id="cidade"
-                            name="cidade"
-                            maxlength="100"
-                            required
-                        >
-
-                    </div>
+                    <small
+                        id="erroEmail"
+                        class="mensagem-login"
+                    ></small>
 
                 </div>
+
+
+                <!-- Senha -->
+
+                <div class="campo-login">
+
+                    <label for="senha">
+                        Senha
+                    </label>
+
+                    <div class="campo-senha">
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            minlength="6"
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="mostrarSenha"
+                            class="botao-olho"
+                            aria-label="Mostrar senha"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                    <small
+                        id="erroSenha"
+                        class="mensagem-login"
+                    ></small>
+
+                </div>
+
+
+                <!-- Mensagem de credenciais -->
+
+                {% if erro %}
+
+                    <div class="erro-credenciais">
+                        {{ erro }}
+                    </div>
+
+                {% endif %}
 
 
                 <!-- Botão -->
 
-                <div class="area-botao">
-
-                    <button type="submit">
-                        Cadastrar
-                    </button>
-
-                </div>
+                <button
+                    type="submit"
+                    class="botao-login"
+                >
+                    Entrar
+                </button>
 
             </form>
-
-
-            <!-- Tabela -->
-
-            <div class="tabela-container">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Nome</th>
-
-                            <th>E-mail</th>
-
-                            <th>Telefone</th>
-
-                            <th>Cidade</th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        {% if clientes %}
-
-                            {% for cliente in clientes %}
-
-                                <tr>
-
-                                    <td>
-                                        {{ cliente.nome }}
-                                    </td>
-
-                                    <td>
-                                        {{ cliente.email }}
-                                    </td>
-
-                                    <td>
-                                        {{ cliente.telefone or "-" }}
-                                    </td>
-
-                                    <td>
-                                        {{ cliente.cidade or "-" }}
-                                    </td>
-
-                                </tr>
-
-                            {% endfor %}
-
-                        {% else %}
-
-                            <tr>
-
-                                <td
-                                    colspan="4"
-                                    class="sem-clientes"
-                                >
-                                    Nenhum cliente cadastrado.
-                                </td>
-
-                            </tr>
-
-                        {% endif %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
 
         </div>
 
     </main>
+
+    <script src="/frontend/js/login.js"></script>
 
 </body>
 

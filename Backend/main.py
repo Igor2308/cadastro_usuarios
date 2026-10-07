@@ -1,9 +1,10 @@
 from fastapi import FastAPI, Depends, Form, Request
 from fastapi.responses import RedirectResponse
+from starlette.middleware.sessions import SessionMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, text
 from sqlalchemy.orm import Session
 
 from backend.database import Base, engine, get_db
@@ -18,6 +19,10 @@ app = FastAPI(
     title="Cadastro de Clientes"
 )
 
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="chave-secreta-cadastro-clientes"
+)
 
 # ==========================================
 # ARQUIVOS DO FRONTEND
@@ -89,15 +94,68 @@ Base.metadata.create_all(
 # ==========================================
 
 @app.get("/")
-def pagina_inicial(
-    request: Request,
-    db: Session = Depends(get_db)
-):
-    clientes = db.query(Cliente).all()
+def pagina_login(request: Request):
 
     return templates.TemplateResponse(
         request=request,
         name="index.html",
+        context={}
+    )
+
+@app.post("/login")
+def fazer_login(
+    request: Request,
+    email: str = Form(...),
+    senha: str = Form(...),
+    db: Session = Depends(get_db)
+):
+
+    usuario = db.execute(
+        text(
+            "SELECT * FROM usuarios "
+            "WHERE email = :email AND senha = :senha"
+        ),
+        {
+            "email": email,
+            "senha": senha
+        }
+    ).fetchone()
+
+    if usuario is None:
+
+        return templates.TemplateResponse(
+            request=request,
+            name="index.html",
+            context={
+                "erro": "Credenciais inválidas."
+            }
+        )
+
+    request.session["usuario_logado"] = True
+
+    return RedirectResponse(
+        url="/cadastro",
+        status_code=303
+    )
+
+@app.get("/cadastro")
+def pagina_cadastro(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+
+    if not request.session.get("usuario_logado"):
+
+        return RedirectResponse(
+        url="/",
+        status_code=303
+    )
+
+    clientes = db.query(Cliente).all()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="cadastro.html",
         context={
             "clientes": clientes
         }
@@ -146,7 +204,7 @@ def cadastrar_cliente(
 
     # Volta para a página principal
     return RedirectResponse(
-        url="/",
+        url="/cadastro",
         status_code=303
     )
 
